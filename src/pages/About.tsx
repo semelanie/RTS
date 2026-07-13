@@ -29,25 +29,29 @@ const About: React.FC = () => (
         <SectionTitle eyebrow="Our Purpose" title="A little something about us" subtitle="Founded on friendship and powered by purpose." />
         <div className="space-y-5 text-lg text-slate-600 leading-relaxed">
           <p>
-            Round Table Seychelles is a branch of the international Round Table service organisation. It was
-            originally chartered under ARTIO and later ARTEA, before becoming fully autonomous in 2006.
+           Round Table Seychelles is a vibrant branch of the international service organization known for its commitment to community service, 
+            fellowship, and the development of young men. Chartered as part of ARTIO (Association of Round Tables of Indian Ocean) and 
+            later as part of the Association of Round Tables of Eastern Africa (ARTEA), the group became autonomous in 2006 after the dissolution of ARTIO.
           </p>
           <p>
-            Our focus is firmly on community service projects and fundraising. Our flagship Regatta, the
-            Shop 4 Hope secondhand store, and ongoing support for the SSPCA and local sports medicine are just
-            a few of the ways we give back.
+            The organization is renowned for various community service projects, with a strong focus on helping children and those in 
+            need. Notable efforts include fundraising through events like the annual Regatta, opening a second-hand shop called Shop 4 Hope, and 
+            various health-related initiatives. They've notably supported the Seychelles Society for the Prevention of Cruelty 
+            to Animals (SSPCA), contributed to local sport facility renovations, and donated medical equipment to boost local sports medicine.
           </p>
           <p>
-            Through meetings and regional conferences we enjoy international fellowship, which has enabled
-            donations such as a Colposcope to Seychelles Hospital and drainage systems for President&rsquo;s
-            Village.
+            Round Table Seychelles has a tradition of holding international meetings and regional conferences to foster fellowship and
+            service. They've been pivotal in various social projects, such as the donation of a Colposcope to the Seychelles Hospital and
+            drainage systems to President's Village, a home for children.
           </p>
           <p>
-            The Regatta remains our flagship event, drawing around 10,000 attendees for a day of sports,
-            performances and community activities that fund our charitable work all year round.
+            Their biggest annual event is the Round Table Seychelles Regatta, which draws around 10,000 attendees and 
+            features a variety of sports competitions, live performances, and community activities, alongside
+            fundraising for different causes.
           </p>
           <p>
-            With an active and dedicated membership, we continue to live by the Round Table motto:
+            With an active membership and a commitment to service and fellowship, Round Table Seychelles is a key
+            player in local community development and exemplifies the Round Table motto of
             <span className="text-[#F88C24] font-semibold"> Adopt, Adapt, Improve.</span>
           </p>
         </div>
