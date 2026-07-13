@@ -8,19 +8,19 @@ export const BRAND = {
 };
 
 export const IMAGES = {
-  hero: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781854997344_79546fce.webp', // rts-group-outdoor (colourful shirts + sign)
+  hero: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781854997344_79546fce.webp',
   groupOutdoor: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781854997344_79546fce.webp',
-  globe: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855002487_025c2e01.png', // rts-globe-background
+  globe: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855002487_025c2e01.png',
   groupMeeting: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855003806_14afc421.jpg',
   groupFormal: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855005143_ea195f19.jpg',
   groupNight: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855007326_bd1182df.jpg',
-  trees: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855013892_6f8ea44d.jpg', // community mural
+  trees: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855013892_6f8ea44d.jpg',
   school: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855003806_14afc421.jpg',
   gala: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855007326_bd1182df.jpg',
   archival: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855013892_6f8ea44d.jpg',
-  logo: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855015292_da3fb633.png', // rts-logo-official (on black)
+  logo: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855015292_da3fb633.png',
   memberPortrait: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855016484_fba3f941.webp',
-  regatta: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855020351_c6b0c0ad.jpg', // marlin + wheel artwork
+  regatta: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855020351_c6b0c0ad.jpg',
   waxSeal: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855022347_cf251619.png',
   wheelEmblem: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855023662_b544d64d.webp',
 };
@@ -42,14 +42,11 @@ export const PORTRAITS = [
 ];
 
 export const NAV_LINKS = [
-  { label: 'Home', path: '/' },
   { label: 'About Us', path: '/about' },
   { label: 'History', path: '/history' },
   { label: 'Regatta', path: '/regatta' },
   { label: 'Projects', path: '/projects' },
   { label: 'News', path: '/news' },
-  { label: 'Tablers', path: '/tablers' },
-  { label: 'Contact', path: '/contact' },
 ];
 
 export const TABLERS = [
