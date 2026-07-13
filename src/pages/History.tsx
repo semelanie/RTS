@@ -27,18 +27,44 @@ const History: React.FC = () => {
           <SectionTitle eyebrow="The Beginning" title="Our Legacy" />
           <div className="space-y-5 text-lg text-slate-600 leading-relaxed">
             <p>
-              Round Table Seychelles was founded in 1973, originally chartered as a member of ARTEA. The
-              following year RTS became a member of WOCO, and RT 22 Seychelles was formed.
+              Round Table Seychelles has a rich history that is deeply rooted in community service and international fellowship. 
+              The journey of Round Table Seychelles began when it was chartered in 1973 as a member of the Association of Round Tables of
+              Eastern Africa (ARTEA) and, subsequently, in 1974 as part of the World Council of Young Men's Service Clubs (WOCO).
             </p>
             <p>
-              In 1985, alongside Mauritius, RTS left ARTEA to co-found ARTIO. When Mauritius later left in
-              2006, Round Table Seychelles became the sole member and gained autonomy, continuing proudly
-              under ARTIO.
+             Initially, the club was known as RT 22 Seychelles, where "22" signified its designation within the regional grouping. 
+              Its early years were marked by camaraderie and the development of the organization's structure and mission. Notable members
+              like Mike Dunford and Serge Pool were instrumental in the club's formative events and community service projects.
             </p>
             <p>
-              The emblem evolved in 2008 and again in 2011, cementing the iconic Round Table wheel that we
-              proudly carry today. Through it all, RTS has built an enduring reputation for community service
-              and its famous Regatta.
+              In 1978, Round Table Seychelles gained recognition when it hosted one of the pre-Tours of the WOCO meeting, an 
+              important event that brought international attention to the club's activities. By the mid-1980s, the Tables from both 
+              Seychelles and Mauritius felt a need to create their own identity separate from ARTEA, leading to the establishment of the
+              Association of Round Tables of the Indian Ocean (ARTIO) in 1985, where RT Seychelles played a crucial role.
+            </p>
+               <p>
+              Despite its autonomous status within ARTIO, the fellowship and service ethos remained at the core of RT Seychelles' activities, 
+              which included a variety of community projects and service events that engaged members and served the needs of the wider community.
+            </p>
+            <p>
+              The year 2006 was a turning point for the organization when the Tables from Mauritius withdrew from ARTIO, leaving 
+              RT Seychelles as the sole member of the association. Consequently, the Seychelles club was renamed RT Seychelles and adopted a 
+              new national emblem, the Coco de Mer palm, and in 2011, the club changed the emblem colors and adopted the Coco de Mer shell as part of its logo.
+            </p>
+              <p>
+             Throughout its history, RT Seychelles has been recognized for its active role in service projects and 
+              community development. The club has fostered a culture of giving and service, which is evident from its 
+              involvement in a diverse range of projects from environmental conservation efforts to health and education initiatives.
+            </p>
+            <p>
+             RT Seychelles is particularly known for its flagship event, the Round Table Seychelles Regatta, a major annual
+            fundraising and social event that brings together community members and international visitors for a series 
+            of sailing races and celebrations.
+            </p>
+                <p>
+             The history of RT Seychelles reflects a dedication to the Round Table's principles of friendship, collaboration, and
+            community service, demonstrating the club's ongoing commitment to making a significant impact in the lives of the 
+             Seychellois and upholding the values that define Round Table organizations worldwide.
             </p>
           </div>
         </div>
