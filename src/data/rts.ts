@@ -50,18 +50,21 @@ export const NAV_LINKS = [
 ];
 
 export const TABLERS = [
-  { name: 'Marc Laurence', role: 'Chairman', img: PORTRAITS[0] },
-  { name: 'Daniel Hoareau', role: 'Vice Chairman', img: PORTRAITS[1] },
-  { name: 'Steve Adrienne', role: 'Honorary Secretary', img: PORTRAITS[2] },
-  { name: 'Jean-Paul Camille', role: 'Honorary Treasurer', img: PORTRAITS[3] },
-  { name: 'Andre Bonnelame', role: 'International Relations Officer', img: PORTRAITS[4] },
-  { name: 'Kevin Morel', role: 'Membership Officer', img: PORTRAITS[5] },
-  { name: 'Brian Servina', role: 'Projects Officer', img: PORTRAITS[6] },
-  { name: 'Terry Delpech', role: 'Public Relations Officer', img: PORTRAITS[0] },
-  { name: 'Ronny Govinden', role: 'Active Member', img: PORTRAITS[1] },
-  { name: 'Damien Thelermont', role: 'Active Member', img: PORTRAITS[2] },
-  { name: 'Sasha Rene', role: 'Active Member', img: PORTRAITS[3] },
-  { name: 'Colin Vidot', role: 'Active Member', img: PORTRAITS[4] },
+  { name: 'Miguel Nolin', role: 'RTS 2 Chairman 26-27', img: PORTRAITS[0] },
+  { name: 'Darren Low Hong', role: 'RTS 2 Vice Chairman 26-27', img: PORTRAITS[1] },
+  { name: 'Christopher Nicette', role: 'RTS 2 Honorary Secretary 26-27 | RTS President 26-27', img: PORTRAITS[2] },
+  { name: 'Sebastian Melanie', role: 'RTS 2 Honorary Treasurer 26-27', img: PORTRAITS[3] },
+  { name: 'Christophe Gabriel', role: 'RTS 2 Community Councillor 26-27', img: PORTRAITS[4] },
+  { name: 'Alex Freminot', role: 'RTS 2 Fund & Raising Councillor 26-27', img: PORTRAITS[5] },
+  { name: 'Andrew Pamlyre', role: 'RTS 2 International Relation Officer 26-27', img: PORTRAITS[6] },
+  { name: 'Alex Henderson', role: 'RTI', img: PORTRAITS[0] },
+  { name: 'Luigi Marguerite', role: 'RTS Honorary Treasurer 26-27', img: PORTRAITS[1] },
+  { name: 'Arnold Loizeau', role: 'RTS Vice President 26-27', img: PORTRAITS[2] },
+  { name: 'Christian Pillay', role: 'Tabler', img: PORTRAITS[3] },
+  { name: 'Laurent Pool', role: 'RTS', img: PORTRAITS[4] },
+  { name: 'Allesandre Fontaine', role: 'Tabler', img: PORTRAITS[5] },
+  { name: 'James Hoareau', role: 'Tabler', img: PORTRAITS[6] },
+  { name: 'Brandon Francois', role: 'Tabler', img: PORTRAITS[0] },
 ];
 
 export const LEADERSHIP = TABLERS.slice(0, 8);
