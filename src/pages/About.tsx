@@ -102,22 +102,6 @@ const About: React.FC = () => (
       </div>
     </section>
 
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <SectionTitle eyebrow="Leadership" title="The Committee" subtitle="Meet the team steering Round Table Seychelles." />
-        <img src={IMAGES.groupFormal} alt="Round Table Seychelles committee members" className="w-full h-72 sm:h-96 object-cover rounded-2xl mb-12" />
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {LEADERSHIP.map((m) => (
-            <div key={m.name} className="text-center">
-              <img src={IMAGES.memberPortrait} alt={`${m.name}, ${m.role}`} className="w-full aspect-square object-cover rounded-2xl mb-3" />
-              <h4 className="font-bold text-[#08142C]">{m.name}</h4>
-              <p className="text-sm text-[#5998d3] font-semibold">{m.role}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
   </PageLayout>
 );
 
