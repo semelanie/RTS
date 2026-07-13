@@ -4,11 +4,11 @@ import { Facebook, Instagram } from 'lucide-react';
 const Footer: React.FC = () => (
   <footer className="bg-black py-5">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-white">
         Copyrights Round Table Seychelles. All rights Reserved.
       </p>
       <div className="flex gap-4">
-        
+        <a
           href="https://www.facebook.com/roundtable.sc/"
           target="_blank"
           rel="noopener noreferrer"
@@ -17,7 +17,7 @@ const Footer: React.FC = () => (
         >
           <Facebook size={18} />
         </a>
-        
+        <a
           href="https://www.instagram.com/roundtableseychelles/"
           target="_blank"
           rel="noopener noreferrer"
