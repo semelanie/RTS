@@ -59,7 +59,7 @@ const Contact: React.FC = () => {
         alt="Round Table Seychelles community event"
         eyebrow="Contact Us"
         title="Get in Touch"
-        subtitle="Whether you want to join, sponsor or simply learn more \u2014 we would love to hear from you."
+        subtitle="Whether you want to join, sponsor or simply learn more. We would love to hear from you."
       />
 
       <section className="py-20 bg-white">
