@@ -65,9 +65,10 @@ const AppLayout: React.FC = () => {
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-[#08142C]">Modern Innovations</h2>
               <p className="mt-5 text-lg text-slate-600 leading-relaxed">
-                Round Table Seychelles (RTS) is a non-political, non-sectarian organisation of young men and
-                women who come together for fellowship and service. As part of the worldwide Round Table
-                movement, we channel our energy into projects that uplift our islands and their people.
+                Round Table Seychelles (RTS) is a vibrant community of young leaders dedicated to fellowship,
+                service, and positive change. As members of the worldwide Round Table movement, we proudly
+                support initiatives that uplift communities, inspire leadership, and make a meaningful
+                difference across Seychelles.
               </p>
               <Link to="/about" className="mt-7 inline-flex items-center gap-2 bg-[#5998d3] text-white font-bold px-6 py-3 rounded-full hover:bg-[#4884c0] transition-colors">
                 Read More <ArrowRight size={18} />
