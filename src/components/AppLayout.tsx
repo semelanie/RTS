@@ -75,7 +75,11 @@ const AppLayout: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <img src={IMAGES.wheelEmblem} alt="Round Table Seychelles wheel emblem" className="w-64 h-64 sm:w-80 sm:h-80 object-contain drop-shadow-xl" />
+            <img
+              src="https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/assets/RTS-Logo-Full-Colour-1-scaled-e1762233280869.png"
+              alt="Round Table Seychelles emblem"
+              className="w-64 h-64 sm:w-80 sm:h-80 object-contain drop-shadow-xl"
+            />
           </div>
         </div>
       </section>
@@ -131,7 +135,7 @@ const AppLayout: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {TABLERS.slice(0, 4).map((t) => (
               <div key={t.name} className="text-center bg-slate-50 rounded-2xl p-4 border border-slate-100">
-                <img src={IMAGES.memberPortrait} alt={`${t.name}, ${t.role}`} className="w-full aspect-square object-cover rounded-xl mb-3" />
+                <img src={t.img} alt={`${t.name}, ${t.role}`} className="w-full aspect-square object-cover rounded-xl mb-3" />
                 <h4 className="font-bold text-[#08142C]">{t.name}</h4>
                 <p className="text-sm text-[#5998d3] font-semibold">{t.role}</p>
               </div>
