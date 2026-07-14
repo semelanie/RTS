@@ -30,12 +30,13 @@ const HomeContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contact-form" className="grid md:grid-cols-2 scroll-mt-24">
-      {/* Left: Contact form (orange) */}
-      <div className="bg-[#F88C24] text-white px-6 sm:px-12 py-16">
-        <div className="max-w-md mx-auto md:ml-auto md:mr-12">
+    <section id="contact-form" className="scroll-mt-24 bg-slate-100 py-16 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+
+        {/* Left: Contact form (orange card) */}
+        <div className="bg-[#F88C24] text-white rounded-2xl px-8 py-10">
           <span className="block text-xs font-bold tracking-widest uppercase text-white/80 mb-2">Join Us</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-6">Contact Us</h2>
+          <h2 className="text-3xl font-extrabold mb-6">Contact Us</h2>
           {status === 'done' ? (
             <div className="bg-white/15 rounded-xl p-6 flex items-start gap-3">
               <CheckCircle className="shrink-0 mt-0.5" />
@@ -94,30 +95,34 @@ const HomeContactForm: React.FC = () => {
             </form>
           )}
         </div>
-      </div>
 
-      {/* Right: Get in touch (dark navy) */}
-      <div className="bg-[#08142C] text-slate-300 px-6 sm:px-12 py-16">
-        <div className="max-w-md md:mr-auto md:ml-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-2">Regatta</h2>
+        {/* Right: Get in touch (dark navy card) */}
+        <div className="bg-[#08142C] text-slate-300 rounded-2xl px-8 py-10">
+          <h2 className="text-3xl font-extrabold text-white mb-2">Regatta</h2>
           <p className="text-[#5998d3] font-semibold mb-8">Get In Touch</p>
           <ul className="space-y-6">
             <li className="flex items-start gap-4">
-              <span className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center shrink-0"><MapPin className="text-[#F88C24]" size={20} /></span>
+              <span className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <MapPin className="text-[#F88C24]" size={20} />
+              </span>
               <div>
                 <p className="text-white font-semibold">Address</p>
                 <p className="text-sm">Round Table Seychelles, Victoria, Mahé, Seychelles</p>
               </div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center shrink-0"><Phone className="text-[#F88C24]" size={20} /></span>
+              <span className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <Phone className="text-[#F88C24]" size={20} />
+              </span>
               <div>
                 <p className="text-white font-semibold">Phone</p>
                 <p className="text-sm">+248 4 000 000</p>
               </div>
             </li>
             <li className="flex items-start gap-4">
-              <span className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center shrink-0"><Mail className="text-[#F88C24]" size={20} /></span>
+              <span className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                <Mail className="text-[#F88C24]" size={20} />
+              </span>
               <div>
                 <p className="text-white font-semibold">Email</p>
                 <p className="text-sm">info@roundtable.sc</p>
@@ -125,6 +130,7 @@ const HomeContactForm: React.FC = () => {
             </li>
           </ul>
         </div>
+
       </div>
     </section>
   );
