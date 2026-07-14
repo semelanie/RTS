@@ -50,21 +50,21 @@ export const NAV_LINKS = [
 ];
 
 export const TABLERS = [
-  { name: 'Miguel Nolin', role: 'RTS 2 Chairman 26-27', img: PORTRAITS[0] },
-  { name: 'Darren Low Hong', role: 'RTS 2 Vice Chairman 26-27', img: PORTRAITS[1] },
-  { name: 'Christopher Nicette', role: 'RTS 2 Honorary Secretary 26-27 | RTS President 26-27', img: PORTRAITS[2] },
-  { name: 'Sebastian Melanie', role: 'RTS 2 Honorary Treasurer 26-27', img: PORTRAITS[3] },
-  { name: 'Christophe Gabriel', role: 'RTS 2 Community Councillor 26-27', img: PORTRAITS[4] },
-  { name: 'Alex Freminot', role: 'RTS 2 Fund & Raising Councillor 26-27', img: PORTRAITS[5] },
-  { name: 'Andrew Pamlyre', role: 'RTS 2 International Relation Officer 26-27', img: PORTRAITS[6] },
-  { name: 'Alex Henderson', role: 'RTI', img: PORTRAITS[0] },
-  { name: 'Luigi Marguerite', role: 'RTS Honorary Treasurer 26-27', img: PORTRAITS[1] },
-  { name: 'Arnold Loizeau', role: 'RTS Vice President 26-27', img: PORTRAITS[2] },
-  { name: 'Christian Pillay', role: 'Tabler', img: PORTRAITS[3] },
-  { name: 'Laurent Pool', role: 'RTS', img: PORTRAITS[4] },
-  { name: 'Allesandre Fontaine', role: 'Tabler', img: PORTRAITS[5] },
-  { name: 'James Hoareau', role: 'Tabler', img: PORTRAITS[6] },
-  { name: 'Brandon Francois', role: 'Tabler', img: PORTRAITS[0] },
+  { name: 'Miguel Nolin', role: 'RTS 2 Chairman 26-27', img: IMAGES.memberPortrait },
+  { name: 'Darren Low Hong', role: 'RTS 2 Vice Chairman 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Darren%20Low%20Hong%20-%20RTS%202%20Vice%20Chairman%2026%20-27.webp' },
+  { name: 'Christopher Nicette', role: 'RTS 2 Honorary Secretary 26-27 | RTS President 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Christopher%20Nicette%20-%20RTS%202%20Secretary%2026-27.webp' },
+  { name: 'Sebastian Melanie', role: 'RTS 2 Honorary Treasurer 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Sebastian%20Melanie%20-%20RTS2%20Honorary%20Treasurer%2026%20-27.jpg' },
+  { name: 'Christophe Gabriel', role: 'RTS 2 Community Councillor 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Christophe%20Gabriel%20-%20RTS%202%20Community%20Councillor%2026-27.webp' },
+  { name: 'Alex Freminot', role: 'RTS 2 Fund & Raising Councillor 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Alex%20Freminot%20-%20RTS%202.webp' },
+  { name: 'Andrew Pamlyre', role: 'RTS 2 International Relation Officer 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Andrew%20Palmyre%20-%20RTS%202%20International%20Officer%2026-27%20-%20RTI%20Content%20Manager%2026-27.webp' },
+  { name: 'Alex Henderson', role: 'RTI', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Alex%20Henderson-%20-%20President%20RTS%2026-27.jpg' },
+  { name: 'Luigi Marguerite', role: 'RTS Honorary Treasurer 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Luigi%20Marguerite%20RTS2.webp' },
+  { name: 'Arnold Loizeau', role: 'RTS Vice President 26-27', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Arnold%20Loizeau%20-%20RTS%202%20Tabler.webp' },
+  { name: 'Christian Pillay', role: 'Tabler', img: IMAGES.memberPortrait },
+  { name: 'Laurent Pool', role: 'RTS', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Laurent%20Pool%20-%20RTS%202%20Tabler.webp' },
+  { name: 'Allesandre Fontaine', role: 'Tabler', img: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/portraits/Allessandre%20Fontaine%20-%20RTS%202%20Tabler.webp' },
+  { name: 'James Hoareau', role: 'Tabler', img: IMAGES.memberPortrait },
+  { name: 'Brandon Francois', role: 'Tabler', img: IMAGES.memberPortrait },
 ];
 
 export const LEADERSHIP = TABLERS.slice(0, 8);
