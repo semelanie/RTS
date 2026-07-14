@@ -60,8 +60,8 @@ const AppLayout: React.FC = () => {
       {/* Modern Innovations / About preview */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div className="flex gap-6">
-            <span className="hidden sm:block text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180">About Us</span>
+          <div className="flex gap-6 items-start">
+            <span className="hidden sm:block text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180 mt-1">About Us</span>
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-[#08142C]">Modern Innovations</h2>
               <p className="mt-5 text-lg text-slate-600 leading-relaxed">
