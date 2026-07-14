@@ -6,16 +6,16 @@ import { NAV_LINKS, IMAGES, SOCIAL } from '@/data/rts';
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
-
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16 sm:h-20">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex items-center justify-center h-11 sm:h-14 px-2 rounded-lg bg-[#08142C]">
-            <img src={IMAGES.logo} alt="Round Table Seychelles logo" className="h-8 sm:h-10 w-auto object-contain" />
-          </span>
+          <img
+            src={IMAGES.logo}
+            alt="Round Table Seychelles logo"
+            className="h-10 sm:h-14 w-auto object-contain"
+          />
         </Link>
-
         <nav className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((l) => (
             <Link
@@ -43,12 +43,10 @@ const Navbar: React.FC = () => {
             Join Us
           </Link>
         </nav>
-
         <button className="lg:hidden text-[#08142C]" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
-
       {open && (
         <div className="lg:hidden bg-white border-t border-slate-100 px-4 py-4 space-y-1">
           {NAV_LINKS.map((l) => (
