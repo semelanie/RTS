@@ -87,7 +87,7 @@ const HomeContactForm: React.FC = () => {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full flex items-center justify-center gap-2 bg-white text-[#F88C24] font-bold px-7 py-3.5 rounded-lg hover:bg-slate-100 transition-colors disabled:opacity-60"
+                className="w-full flex items-center justify-center gap-2 bg-[#F88C24] text-white font-bold px-7 py-3.5 rounded-lg border-2 border-white hover:bg-[#e07d18] transition-colors disabled:opacity-60"
               >
                 {status === 'sending' ? 'Sending…' : 'Send Now'} <Send size={18} />
               </button>
@@ -125,7 +125,7 @@ const HomeContactForm: React.FC = () => {
               </span>
               <div>
                 <p className="text-white font-semibold">Email</p>
-                <p className="text-sm">info@roundtable.sc</p>
+                <p className="text-sm">info@rtseychelles.com</p>
               </div>
             </li>
           </ul>
