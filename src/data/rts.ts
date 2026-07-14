@@ -18,7 +18,7 @@ export const IMAGES = {
   school: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855003806_14afc421.jpg',
   gala: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855007326_bd1182df.jpg',
   archival: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855013892_6f8ea44d.jpg',
-  logo: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855015292_da3fb633.png',
+  logo: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/assets/RTS-Logo-Full-Colour-scaled.webp',
   memberPortrait: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855016484_fba3f941.webp',
   regatta: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855020351_c6b0c0ad.jpg',
   waxSeal: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855022347_cf251619.png',
