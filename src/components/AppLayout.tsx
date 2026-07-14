@@ -89,8 +89,8 @@ const AppLayout: React.FC = () => {
       <section className="bg-[#08142C] text-slate-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
           <img src={IMAGES.groupMeeting} alt="Round Table Seychelles members at a meeting" className="rounded-2xl object-cover w-full h-72 sm:h-96 order-2 md:order-1" />
-          <div className="flex gap-6 order-1 md:order-2">
-            <span className="hidden sm:block text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180">Commitment</span>
+          <div className="flex gap-6 order-1 md:order-2 items-start">
+            <span className="hidden sm:block text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180 mt-1">Commitment</span>
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white">What is Round Table</h2>
               <p className="mt-5 text-lg leading-relaxed">
