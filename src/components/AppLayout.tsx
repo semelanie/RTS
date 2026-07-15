@@ -57,11 +57,11 @@ const AppLayout: React.FC = () => {
         </div>
       </section>
 
-      {/* Modern Innovations / About preview */}
+      {/* Modern Innovations */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-12 items-start">
           <div className="flex gap-6 items-start">
-            <span className="hidden sm:block text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180 mt-1">About Us</span>
+            <span className="hidden sm:flex text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180 self-center">About Us</span>
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-[#08142C]">Modern Innovations</h2>
               <p className="mt-5 text-lg text-slate-600 leading-relaxed">
@@ -70,7 +70,7 @@ const AppLayout: React.FC = () => {
                 support initiatives that uplift communities, inspire leadership, and make a meaningful
                 difference across Seychelles.
               </p>
-              <Link to="/about" className="mt-7 inline-flex items-center gap-2 bg-[#5998d3] text-white font-bold px-6 py-3 rounded-full hover:bg-[#4884c0] transition-colors">
+              <Link to="/about" className="mt-7 inline-flex items-center gap-2 bg-[#F88C24] hover:bg-[#e07d18] text-white font-bold px-6 py-3 rounded-full transition-colors">
                 Read More <ArrowRight size={18} />
               </Link>
             </div>
@@ -85,13 +85,12 @@ const AppLayout: React.FC = () => {
         </div>
       </section>
 
-      {/* What is Round Table (dark) */}
+      {/* What is Round Table */}
       <section className="bg-[#08142C] text-slate-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-start">
           <img src={IMAGES.groupMeeting} alt="Round Table Seychelles members at a meeting" className="rounded-2xl object-cover w-full h-72 sm:h-96 order-2 md:order-1" />
-          <div className="flex gap-6 order-1 md:order-2 items-start">
-            <span className="hidden sm:block text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] rotate-180 mt-1">Commitment</span>
-            <div>
+          <div className="flex gap-6 items-start order-1 md:order-2">
+            <div className="flex-1">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white">What is Round Table</h2>
               <p className="mt-5 text-lg leading-relaxed">
                 Round Table is a worldwide club for young people who want to make new friends and give something
@@ -102,13 +101,14 @@ const AppLayout: React.FC = () => {
                 Read More <ArrowRight size={18} />
               </Link>
             </div>
+            <span className="hidden sm:flex text-[#F88C24] font-bold tracking-[0.3em] uppercase text-xs [writing-mode:vertical-rl] self-center">Commitment</span>
           </div>
         </div>
       </section>
 
-      {/* Why (dark) */}
+      {/* Why */}
       <section className="bg-[#08142C] border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-start">
           <div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Why</h2>
             <p className="mt-5 text-lg text-slate-300 leading-relaxed">
@@ -116,7 +116,7 @@ const AppLayout: React.FC = () => {
               a genuine, lasting impact across Seychelles. Whatever your background, there is a seat at the table
               for you.
             </p>
-            <Link to="/about" className="mt-7 inline-flex items-center gap-2 bg-[#5998d3] text-white font-bold px-6 py-3 rounded-full hover:bg-[#4884c0] transition-colors">
+            <Link to="/about" className="mt-7 inline-flex items-center gap-2 bg-[#F88C24] text-white font-bold px-6 py-3 rounded-full hover:bg-[#e07d18] transition-colors">
               Read More <ArrowRight size={18} />
             </Link>
           </div>
