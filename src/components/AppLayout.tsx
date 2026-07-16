@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, Globe, Users, Calendar, Heart, Trophy, Quote } from 'lucide-react';
+import { ArrowRight, Globe, Users, Calendar, Heart, Trophy } from 'lucide-react';
 import PageLayout from '@/components/PageLayout';
 import SectionTitle from '@/components/SectionTitle';
 import HomeContactForm from '@/components/HomeContactForm';
@@ -11,24 +11,6 @@ const stats = [
   { icon: Calendar, label: 'Years Active', value: '50+' },
   { icon: Heart, label: 'Funds Raised', value: 'US$40K+' },
   { icon: Trophy, label: 'Events Held', value: '100+' },
-];
-
-const testimonials = [
-  {
-    name: 'Christopher Nicette',
-    role: 'RTS President 26-27',
-    text: 'Round Table changed my life. The friendships, the purpose, the impact — there is nothing quite like it.',
-  },
-  {
-    name: 'Darren Low Hong',
-    role: 'RTS 2 Vice Chairman 26-27',
-    text: 'Being a Tabler means being part of something bigger than yourself. Every project we do leaves a real mark on Seychelles.',
-  },
-  {
-    name: 'Sebastian Melanie',
-    role: 'RTS 2 Honorary Treasurer 26-27',
-    text: 'I joined for the fellowship and stayed for the service. RTS has given me lifelong brothers and sisters.',
-  },
 ];
 
 const upcomingEvents = [
@@ -175,48 +157,13 @@ const AppLayout: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionTitle eyebrow="Voices" title="What Our Tablers Say" subtitle="Hear from the members who make RTS what it is." />
-          <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((t) => (
-              <div key={t.name} className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm flex flex-col gap-4">
-                <Quote className="text-[#F88C24]" size={28} />
-                <p className="text-slate-600 leading-relaxed italic flex-1">"{t.text}"</p>
-                <div>
-                  <p className="font-bold text-[#08142C]">{t.name}</p>
-                  <p className="text-sm text-[#5998d3] font-semibold">{t.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Upcoming Events */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <SectionTitle eyebrow="What's On" title="Upcoming Events" subtitle="Stay connected with what RTS has planned." />
-          <div className="grid gap-6 md:grid-cols-3">
-            {upcomingEvents.map((e) => (
-              <div key={e.title} className="border-l-4 border-[#F88C24] bg-slate-50 rounded-r-2xl p-6">
-                <span className="inline-block bg-[#F88C24] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">{e.date}</span>
-                <h3 className="font-extrabold text-[#08142C] text-lg mb-2">{e.title}</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">{e.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Tablers */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionTitle eyebrow="Our People" title="Tablers" subtitle="The members driving change across the islands." />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {TABLERS.slice(0, 4).map((t) => (
-              <div key={t.name} className="text-center bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+              <div key={t.name} className="text-center bg-slate-50 rounded-2xl p-4 border border-slate-100 shadow-sm">
                 <img src={t.img} alt={`${t.name}, ${t.role}`} className="w-full aspect-square object-cover rounded-xl mb-3" />
                 <h4 className="font-bold text-[#08142C]">{t.name}</h4>
                 <p className="text-sm text-[#5998d3] font-semibold">{t.role}</p>
@@ -227,6 +174,22 @@ const AppLayout: React.FC = () => {
             <Link to="/tablers" className="inline-flex items-center gap-2 text-[#5998d3] font-bold hover:gap-3 transition-all">
               Meet all our Tablers <ArrowRight size={18} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionTitle eyebrow="What's On" title="Upcoming Events" subtitle="Stay connected with what RTS has planned." />
+          <div className="grid gap-6 md:grid-cols-3">
+            {upcomingEvents.map((e) => (
+              <div key={e.title} className="border-l-4 border-[#F88C24] bg-white rounded-r-2xl p-6 shadow-sm">
+                <span className="inline-block bg-[#F88C24] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">{e.date}</span>
+                <h3 className="font-extrabold text-[#08142C] text-lg mb-2">{e.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{e.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
