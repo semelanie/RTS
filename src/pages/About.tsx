@@ -97,7 +97,7 @@ const About: React.FC = () => (
     <section className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col items-center mb-10">
-          <img src={IMAGES.waxSeal} alt="Round Table Seychelles wax seal" className="h-20 w-20 object-contain mb-3" />
+          <img src="https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/assets/Picture2.png" alt="Round Table Seychelles wax seal" className="h-20 w-20 object-contain mb-3 bg-white" />
           <SectionTitle eyebrow="What Drives Us" title="Vision, Mission & Values" />
         </div>
         <div className="grid gap-8 md:grid-cols-3">
