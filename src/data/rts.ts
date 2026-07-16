@@ -21,7 +21,7 @@ export const IMAGES = {
   logo: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/assets/1.png',
   memberPortrait: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855016484_fba3f941.webp',
   regatta: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855020351_c6b0c0ad.jpg',
-  waxSeal: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855022347_cf251619.png',
+  waxSeal: 'https://gaofwzgqiyehlsaupjrn.supabase.co/storage/v1/object/public/assets/Picture2.png',
   wheelEmblem: 'https://d64gsuwffb70l.cloudfront.net/6a1d48e2f9df3d6b1fd5b30a_1781855023662_b544d64d.webp',
 };
 
