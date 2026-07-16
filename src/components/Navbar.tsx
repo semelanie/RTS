@@ -22,7 +22,9 @@ const Navbar: React.FC = () => {
               key={l.path}
               to={l.path}
               className={`px-3 py-2 rounded-md text-sm font-semibold transition-colors ${
-                pathname === l.path ? 'text-[#F88C24]' : 'text-[#08142C] hover:text-white hover:bg-[#08142C]'
+                pathname === l.path
+                  ? 'text-[#F88C24] bg-orange-50'
+                  : 'text-[#08142C] hover:text-white hover:bg-[#08142C]'
               }`}
             >
               {l.label}
