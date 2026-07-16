@@ -33,7 +33,7 @@ const History: React.FC = () => {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <SectionTitle eyebrow="The Beginning" title="Our Legacy" />
-          <div className="space-y-5 text-lg text-[#5998d3] leading-relaxed">
+          <div className="space-y-5 text-lg text-[#08142C] leading-relaxed">
             <p>
               Round Table Seychelles has a rich history that is deeply rooted in community service and international fellowship.
               The journey of Round Table Seychelles began when it was chartered in 1973 as a member of the Association of Round Tables of
@@ -97,8 +97,8 @@ const History: React.FC = () => {
           </div>
           <div className="max-w-3xl mx-auto bg-white rounded-2xl p-10 shadow-sm border border-slate-100 text-center">
             <span className="text-5xl font-extrabold text-[#5998d3]">{MILESTONES[active].year}</span>
-            <h3 className="text-2xl font-bold text-[#5998d3] mt-4 mb-3">{MILESTONES[active].title}</h3>
-            <p className="text-lg text-[#5998d3] leading-relaxed">{MILESTONES[active].desc}</p>
+            <h3 className="text-2xl font-bold text-[#08142C] mt-4 mb-3">{MILESTONES[active].title}</h3>
+            <p className="text-lg text-[#08142C] leading-relaxed">{MILESTONES[active].desc}</p>
           </div>
         </div>
       </section>
