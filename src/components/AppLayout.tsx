@@ -1,10 +1,41 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, Globe } from 'lucide-react';
+import { ArrowRight, Globe, Users, Calendar, Heart, Trophy, Quote } from 'lucide-react';
 import PageLayout from '@/components/PageLayout';
 import SectionTitle from '@/components/SectionTitle';
 import HomeContactForm from '@/components/HomeContactForm';
 import { IMAGES, TABLERS, SOCIAL } from '@/data/rts';
+
+const stats = [
+  { icon: Users, label: 'Active Members', value: '15+' },
+  { icon: Calendar, label: 'Years Active', value: '50+' },
+  { icon: Heart, label: 'Funds Raised', value: 'US$40K+' },
+  { icon: Trophy, label: 'Events Held', value: '100+' },
+];
+
+const testimonials = [
+  {
+    name: 'Christopher Nicette',
+    role: 'RTS President 26-27',
+    text: 'Round Table changed my life. The friendships, the purpose, the impact — there is nothing quite like it.',
+  },
+  {
+    name: 'Darren Low Hong',
+    role: 'RTS 2 Vice Chairman 26-27',
+    text: 'Being a Tabler means being part of something bigger than yourself. Every project we do leaves a real mark on Seychelles.',
+  },
+  {
+    name: 'Sebastian Melanie',
+    role: 'RTS 2 Honorary Treasurer 26-27',
+    text: 'I joined for the fellowship and stayed for the service. RTS has given me lifelong brothers and sisters.',
+  },
+];
+
+const upcomingEvents = [
+  { date: 'Aug 2026', title: 'RTS Regatta 2026', desc: 'Our flagship annual fundraising event on the waters of Mahé.' },
+  { date: 'Sep 2026', title: 'Monthly Meeting', desc: 'Regular member gathering to discuss upcoming projects and initiatives.' },
+  { date: 'Oct 2026', title: 'Beach Cleanup Drive', desc: 'Community coastal cleanup across three beaches on Mahé.' },
+];
 
 const AppLayout: React.FC = () => {
   const { hash } = useLocation();
@@ -54,6 +85,21 @@ const AppLayout: React.FC = () => {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="bg-[#08142C] py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {stats.map((s) => (
+            <div key={s.label} className="flex flex-col items-center text-center gap-2">
+              <div className="h-12 w-12 rounded-full bg-[#F88C24]/20 flex items-center justify-center">
+                <s.icon className="text-[#F88C24]" size={22} />
+              </div>
+              <span className="text-3xl font-extrabold text-white">{s.value}</span>
+              <span className="text-xs text-slate-400 font-semibold uppercase tracking-wide">{s.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -129,13 +175,48 @@ const AppLayout: React.FC = () => {
         </div>
       </section>
 
-      {/* Tablers */}
+      {/* Testimonials */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionTitle eyebrow="Voices" title="What Our Tablers Say" subtitle="Hear from the members who make RTS what it is." />
+          <div className="grid gap-6 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <div key={t.name} className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm flex flex-col gap-4">
+                <Quote className="text-[#F88C24]" size={28} />
+                <p className="text-slate-600 leading-relaxed italic flex-1">"{t.text}"</p>
+                <div>
+                  <p className="font-bold text-[#08142C]">{t.name}</p>
+                  <p className="text-sm text-[#5998d3] font-semibold">{t.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events */}
       <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionTitle eyebrow="What's On" title="Upcoming Events" subtitle="Stay connected with what RTS has planned." />
+          <div className="grid gap-6 md:grid-cols-3">
+            {upcomingEvents.map((e) => (
+              <div key={e.title} className="border-l-4 border-[#F88C24] bg-slate-50 rounded-r-2xl p-6">
+                <span className="inline-block bg-[#F88C24] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">{e.date}</span>
+                <h3 className="font-extrabold text-[#08142C] text-lg mb-2">{e.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{e.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tablers */}
+      <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <SectionTitle eyebrow="Our People" title="Tablers" subtitle="The members driving change across the islands." />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
             {TABLERS.slice(0, 4).map((t) => (
-              <div key={t.name} className="text-center bg-slate-50 rounded-2xl p-4 border border-slate-100">
+              <div key={t.name} className="text-center bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
                 <img src={t.img} alt={`${t.name}, ${t.role}`} className="w-full aspect-square object-cover rounded-xl mb-3" />
                 <h4 className="font-bold text-[#08142C]">{t.name}</h4>
                 <p className="text-sm text-[#5998d3] font-semibold">{t.role}</p>
