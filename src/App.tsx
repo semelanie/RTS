@@ -14,6 +14,9 @@ import Contact from "./pages/Contact";
 import News from "./pages/News";
 import Article from "./pages/Article";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminGuard from "./components/AdminGuard";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +37,12 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:slug" element={<Article />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={
+              <AdminGuard>
+                <AdminDashboard />
+              </AdminGuard>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
