@@ -1,475 +1,87 @@
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
--- ============================================================
--- TABLES (public schema)
--- ============================================================
-
-CREATE TABLE public.crm_campaigns (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name text NOT NULL,
-    subject text,
-    html_body text,
-    text_body text,
-    channel text DEFAULT 'email'::text NOT NULL,
-    status text DEFAULT 'draft'::text,
-    list_id uuid,
-    filter_query jsonb,
-    list_ids jsonb,
-    style_preset text,
-    images jsonb,
-    scheduled_at timestamp with time zone,
-    sent_at timestamp with time zone,
-    total_recipients integer DEFAULT 0,
-    total_sent integer DEFAULT 0,
-    total_opened integer DEFAULT 0,
-    total_clicked integer DEFAULT 0,
-    created_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_campaigns_channel_check CHECK ((channel = ANY (ARRAY['email'::text, 'sms'::text]))),
-    CONSTRAINT crm_campaigns_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'scheduled'::text, 'sending'::text, 'sent'::text, 'failed'::text])))
-);
-
-CREATE TABLE public.crm_flow_step_queue (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    flow_id uuid NOT NULL,
-    contact_id uuid NOT NULL,
-    resume_step_order integer NOT NULL,
-    run_at timestamp with time zone NOT NULL,
-    attempts integer DEFAULT 0 NOT NULL,
-    max_attempts integer DEFAULT 5 NOT NULL,
-    last_error text,
-    event_data jsonb DEFAULT '{}'::jsonb NOT NULL,
-    locked_at timestamp with time zone,
-    locked_by text,
-    finished_at timestamp with time zone,
-    created_at timestamp with time zone DEFAULT now() NOT NULL
-);
-
-CREATE TABLE public.crm_appointments (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    calendar_id uuid,
-    contact_id uuid,
-    contact_email text NOT NULL,
-    contact_name text,
-    contact_phone text,
-    title text,
-    starts_at timestamp with time zone NOT NULL,
-    ends_at timestamp with time zone NOT NULL,
-    status text DEFAULT 'confirmed'::text,
-    notes text,
-    source text DEFAULT 'manual'::text,
-    google_event_id text,
-    calendly_event_id text,
-    assigned_user_id text,
-    assigned_membership_id uuid,
-    participant_count integer DEFAULT 1,
-    metadata jsonb DEFAULT '{}'::jsonb,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_appointments_source_check CHECK ((source = ANY (ARRAY['manual'::text, 'public_link'::text, 'google'::text, 'calendly'::text]))),
-    CONSTRAINT crm_appointments_status_check CHECK ((status = ANY (ARRAY['confirmed'::text, 'cancelled'::text, 'completed'::text, 'no_show'::text, 'rescheduled'::text])))
-);
-
-CREATE TABLE public.crm_availability (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    calendar_id uuid,
-    day_of_week integer NOT NULL,
-    start_time time without time zone NOT NULL,
-    end_time time without time zone NOT NULL,
-    is_active boolean DEFAULT true,
-    created_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_availability_day_of_week_check CHECK (((day_of_week >= 0) AND (day_of_week <= 6)))
-);
-
-CREATE TABLE public.crm_calendar_members (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    calendar_id uuid,
-    user_id text NOT NULL,
-    user_google_calendar_id text,
-    user_outlook_calendar_id text,
-    priority integer DEFAULT 0,
-    created_at timestamp with time zone DEFAULT now()
-);
-
-CREATE TABLE public.crm_calendars (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name text DEFAULT 'Default Calendar'::text NOT NULL,
-    slug text,
-    description text,
-    calendar_type text DEFAULT 'personal'::text,
-    owner_user_id text,
-    max_participants integer DEFAULT 1,
-    date_range_days integer,
-    slot_duration integer DEFAULT 30,
-    slot_interval integer DEFAULT 0,
-    max_bookings_per_day integer,
-    min_notice_hours integer DEFAULT 1,
-    buffer_before integer DEFAULT 0,
-    buffer_after integer DEFAULT 0,
-    timezone text DEFAULT 'America/New_York'::text,
-    is_active boolean DEFAULT true,
-    meeting_location_type text DEFAULT 'custom'::text,
-    meeting_location_value text,
-    host_notify_on_booking boolean DEFAULT true,
-    google_calendar_id text,
-    google_refresh_token text,
-    calendly_user_uri text,
-    calendly_webhook_id text,
-    metadata jsonb DEFAULT '{}'::jsonb,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp with time zone DEFAULT now(),
-    calendly_connection_id uuid,
-    CONSTRAINT crm_calendars_calendar_type_check CHECK ((calendar_type = ANY (ARRAY['personal'::text, 'round_robin'::text, 'class'::text, 'collective'::text])))
-);
-
-CREATE TABLE public.crm_calendly_connections (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    user_id text NOT NULL,
-    calendly_user_uri text NOT NULL,
-    calendly_user_email text,
-    calendly_user_name text,
-    calendly_org_uri text,
-    encrypted_access_token text NOT NULL,
-    signing_key text NOT NULL,
-    webhook_id text,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp with time zone DEFAULT now()
-);
-
-CREATE TABLE public.crm_contact_lists (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    contact_id uuid NOT NULL,
-    list_id uuid NOT NULL,
-    created_at timestamp with time zone DEFAULT now()
-);
-
-CREATE TABLE public.crm_contacts (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    email text NOT NULL,
-    name text,
-    phone text,
-    sms_opt_in boolean DEFAULT false,
-    address jsonb,
-    source text DEFAULT 'manual'::text,
-    tags text[] DEFAULT '{}'::text[],
-    metadata jsonb DEFAULT '{}'::jsonb,
-    ecom_customer_id uuid,
-    total_orders integer DEFAULT 0,
-    total_spent integer DEFAULT 0,
-    last_order_at timestamp with time zone,
-    subscribed boolean DEFAULT true,
-    subscribed_at timestamp with time zone DEFAULT now(),
-    unsubscribed_at timestamp with time zone,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp with time zone DEFAULT now()
-);
-
-CREATE TABLE public.crm_events (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    contact_id uuid,
-    campaign_id uuid,
-    channel text DEFAULT 'email'::text NOT NULL,
-    event_type text NOT NULL,
-    metadata jsonb DEFAULT '{}'::jsonb,
-    created_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_events_channel_check CHECK ((channel = ANY (ARRAY['email'::text, 'sms'::text]))),
-    CONSTRAINT crm_events_event_type_check CHECK ((event_type = ANY (ARRAY['sent'::text, 'opened'::text, 'clicked'::text, 'bounced'::text, 'unsubscribed'::text, 'opt_out'::text, 'delivered'::text, 'failed'::text, 'undelivered'::text])))
-);
-
-CREATE TABLE public.crm_flow_logs (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    flow_id uuid,
-    step_id uuid,
-    contact_id uuid,
-    trigger_event text NOT NULL,
-    status text DEFAULT 'executed'::text,
-    metadata jsonb DEFAULT '{}'::jsonb,
-    created_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_flow_logs_status_check CHECK ((status = ANY (ARRAY['executed'::text, 'failed'::text, 'skipped'::text])))
-);
-
-CREATE TABLE public.crm_flow_steps (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    flow_id uuid,
-    step_order integer NOT NULL,
-    action_type text NOT NULL,
-    action_config jsonb DEFAULT '{}'::jsonb NOT NULL,
-    created_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_flow_steps_action_type_check CHECK ((action_type = ANY (ARRAY['send_email'::text, 'send_sms'::text, 'add_tag'::text, 'add_to_list'::text, 'wait'::text])))
-);
-
-CREATE TABLE public.crm_flows (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name text NOT NULL,
-    trigger_type text NOT NULL,
-    trigger_config jsonb DEFAULT '{}'::jsonb,
-    is_active boolean DEFAULT true,
-    cron_job_name text,
-    last_fired_at timestamp with time zone,
-    created_at timestamp with time zone DEFAULT now(),
-    updated_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT crm_flows_trigger_type_check CHECK ((trigger_type = ANY (ARRAY['contact.subscribed', 'order.placed', 'contact.tagged', 'user.registered', 'appointment.booked', 'schedule.cron'])))
-);
-
-CREATE TABLE public.crm_lists (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name text NOT NULL,
-    description text,
-    filter_query jsonb,
-    is_dynamic boolean DEFAULT false,
-    created_at timestamp with time zone DEFAULT now()
-);
-
-CREATE TABLE public.rts_posts (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    title text NOT NULL,
-    slug text NOT NULL,
-    excerpt text,
-    body text NOT NULL,
-    cover_image text,
-    author text DEFAULT 'RTS Communications'::text NOT NULL,
-    category text DEFAULT 'News'::text NOT NULL,
-    published_at timestamp with time zone DEFAULT now() NOT NULL,
-    created_at timestamp with time zone DEFAULT now() NOT NULL
-);
-
--- ============================================================
--- FUNCTIONS (public schema)
--- ============================================================
-
-CREATE OR REPLACE FUNCTION public.crm_campaigns_claim_due(p_limit integer) RETURNS SETOF public.crm_campaigns
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-RETURN QUERY UPDATE public.crm_campaigns
-SET status = 'sending', sent_at = NULL
-WHERE id IN (
-  SELECT due_id FROM (
-    SELECT id AS due_id FROM public.crm_campaigns
-    WHERE status = 'scheduled' AND scheduled_at <= NOW()
-    ORDER BY scheduled_at
-    FOR UPDATE SKIP LOCKED
-    LIMIT p_limit
-  ) due_rows
-)
-RETURNING *;
-END $$;
-
-CREATE OR REPLACE FUNCTION public.crm_flow_queue_claim(p_limit integer, p_worker text, p_lock_seconds integer DEFAULT 300) RETURNS SETOF public.crm_flow_step_queue
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-RETURN QUERY UPDATE public.crm_flow_step_queue
-SET locked_at = NOW(),
-    locked_by = p_worker,
-    attempts = attempts + 1
-WHERE id IN (
-  SELECT due_id FROM (
-    SELECT id AS due_id FROM public.crm_flow_step_queue
-    WHERE finished_at IS NULL
-      AND attempts < max_attempts
-      AND run_at <= NOW()
-      AND (locked_at IS NULL OR locked_at < NOW() - make_interval(secs => p_lock_seconds))
-    ORDER BY run_at
-    FOR UPDATE SKIP LOCKED
-    LIMIT p_limit
-  ) due_rows
-)
-RETURNING *;
-END $$;
-
--- ============================================================
--- DATA
--- ============================================================
-
-INSERT INTO public.crm_availability (id, calendar_id, day_of_week, start_time, end_time, is_active, created_at) VALUES
-  ('c48585cb-ecde-459a-80e9-9df5a38e8f35', '7524be67-6ec9-46c6-a04d-e4a197bca039', 1, '09:00:00', '17:00:00', TRUE, '2026-06-10 07:33:48.677345+00'),
-  ('04ce3263-48e6-4b79-a6b4-5994bc92398e', '7524be67-6ec9-46c6-a04d-e4a197bca039', 2, '09:00:00', '17:00:00', TRUE, '2026-06-10 07:33:48.677345+00'),
-  ('f5f01b31-e7fb-4fc9-8e70-933faa76a159', '7524be67-6ec9-46c6-a04d-e4a197bca039', 3, '09:00:00', '17:00:00', TRUE, '2026-06-10 07:33:48.677345+00'),
-  ('3310d8b9-9e0e-43dd-bd86-4fed7670f760', '7524be67-6ec9-46c6-a04d-e4a197bca039', 4, '09:00:00', '17:00:00', TRUE, '2026-06-10 07:33:48.677345+00'),
-  ('b961dd06-9853-483d-8340-685dfbf79276', '7524be67-6ec9-46c6-a04d-e4a197bca039', 5, '09:00:00', '17:00:00', TRUE, '2026-06-10 07:33:48.677345+00');
-
-INSERT INTO public.crm_calendar_members (id, calendar_id, user_id, user_google_calendar_id, user_outlook_calendar_id, priority, created_at) VALUES
-  ('b6081382-0e14-48ce-97d6-2d90b2d306f1', '7524be67-6ec9-46c6-a04d-e4a197bca039', '6a1d48e2f9df3d6b1fd5b30a', NULL, NULL, 0, '2026-06-10 07:33:48.534186+00');
-
-INSERT INTO public.crm_calendars (id, name, slug, description, calendar_type, owner_user_id, max_participants, date_range_days, slot_duration, slot_interval, max_bookings_per_day, min_notice_hours, buffer_before, buffer_after, timezone, is_active, meeting_location_type, meeting_location_value, host_notify_on_booking, google_calendar_id, google_refresh_token, calendly_user_uri, calendly_webhook_id, metadata, created_at, updated_at, calendly_connection_id) VALUES
-  ('7524be67-6ec9-46c6-a04d-e4a197bca039', 'Default Calendar', NULL, NULL, 'personal', '6a1d48e2f9df3d6b1fd5b30a', 1, NULL, 30, 0, NULL, 1, 0, 0, 'America/New_York', TRUE, 'custom', NULL, TRUE, NULL, NULL, NULL, NULL, '{}'::jsonb, '2026-06-10 07:33:44.864138+00', '2026-06-10 07:33:44.864138+00', NULL);
-
-INSERT INTO public.crm_flows (id, name, trigger_type, trigger_config, is_active, cron_job_name, last_fired_at, created_at, updated_at) VALUES
-  ('e06cf12e-0094-4450-8722-71cc7c4064af', 'Welcome Email', 'contact.subscribed', '{}'::jsonb, FALSE, NULL, NULL, '2026-06-10 07:33:42.129261+00', '2026-06-10 07:33:42.129261+00');
-
-INSERT INTO public.rts_posts (id, title, slug, excerpt, body, cover_image, author, category, published_at, created_at) VALUES
-  ('a835b234-a6c0-4031-8cdd-a121b9edae4b', 'RTS Regatta 2024 Raises Record Funds', 'regatta-2024-record-funds', 'The annual RTS Regatta returned bigger than ever, with sailors and sponsors helping raise a record sum for local causes.', 'The 2024 edition of the Round Table Seychelles Regatta was our most successful yet. Held under clear blue skies off the coast of Mahe, dozens of boats took to the water in a spirited day of racing and fellowship.\n\nThanks to the generosity of our sponsors, participants and the wider community, we raised a record amount that will go directly toward education and marine conservation projects across the islands.\n\nWe extend our heartfelt thanks to every volunteer, sailor and supporter who made the day possible. Plans are already underway for an even bigger Regatta next year.', 'https://d64gsuwffb70l.cloudfront.net/6a1d49a1cf6c2dfcce9d772e_1781077004723_20e8e21b.png', 'RTS Communications', 'Events', '2026-06-07 07:48:48.79993+00', '2026-06-10 07:48:48.79993+00'),
-  ('8a4ea2dd-68a3-4420-aee9-78956c13e718', 'Beach Cleanup Drive Restores Twelve Coastlines', 'beach-cleanup-twelve-coastlines', 'Our monthly cleanup initiative reached a major milestone, with twelve beaches now restored to their natural beauty.', 'Protecting the pristine coastlines of Seychelles is at the heart of what we do. Over the past year, RTS volunteers have dedicated countless weekends to removing waste and educating the public about marine pollution.\n\nThis month we proudly celebrated the restoration of our twelfth beach. Every cleanup not only beautifies our shores but also protects the marine life that depends on healthy ecosystems.\n\nWant to join the next cleanup? Get in touch with us and become part of the movement.', 'https://d64gsuwffb70l.cloudfront.net/6a1d49a1cf6c2dfcce9d772e_1781076892876_5ecbf93a.jpg', 'Projects Committee', 'Projects', '2026-05-31 07:48:48.79993+00', '2026-06-10 07:48:48.79993+00'),
-  ('82fe6570-f0a9-4358-bfa1-1b9eee7e4269', 'New Youth Mentorship Programme Launching Soon', 'youth-mentorship-launch', 'RTS announces an exciting new initiative connecting young Seychellois with experienced professional mentors.', 'We are thrilled to announce the upcoming launch of our Youth Mentorship Initiative. Set to begin in Q2 2025, the programme will pair young people with experienced mentors from a range of professions.\n\nParticipants will receive guidance on leadership, career development and personal growth, while building lasting relationships with role models in their community.\n\nApplications for both mentors and mentees will open shortly. Stay tuned for more details.', 'https://d64gsuwffb70l.cloudfront.net/6a1d49a1cf6c2dfcce9d772e_1781077156276_f90e6068.jpg', 'Membership Office', 'Announcements', '2026-05-21 07:48:48.79993+00', '2026-06-10 07:48:48.79993+00'),
-  ('55102b39-8afb-4d26-b5b2-2c479db422c8', 'Reforestation Programme Plants 5,000th Tree', 'reforestation-5000-trees', 'A landmark moment for our environmental efforts as the reforestation programme reaches a major planting milestone.', 'Our ongoing reforestation programme has reached an incredible milestone: 5,000 native trees planted across the islands.\n\nThese trees help combat soil erosion, restore habitats and preserve the unique biodiversity that makes Seychelles so special. The effort has brought together members, schools and local communities in a shared mission.\n\nWe are grateful to everyone who has dug, planted and watered alongside us. Here is to the next 5,000.', 'https://d64gsuwffb70l.cloudfront.net/6a1d49a1cf6c2dfcce9d772e_1781077137241_48860eac.jpg', 'Projects Committee', 'Projects', '2026-05-09 07:48:48.79993+00', '2026-06-10 07:48:48.79993+00');
-
--- ============================================================
--- PRIMARY KEYS & UNIQUE CONSTRAINTS
--- ============================================================
-
-ALTER TABLE ONLY public.crm_appointments ADD CONSTRAINT crm_appointments_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_availability ADD CONSTRAINT crm_availability_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_calendar_members ADD CONSTRAINT crm_calendar_members_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_calendars ADD CONSTRAINT crm_calendars_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_calendly_connections ADD CONSTRAINT crm_calendly_connections_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_campaigns ADD CONSTRAINT crm_campaigns_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_contact_lists ADD CONSTRAINT crm_contact_lists_contact_id_list_id_key UNIQUE (contact_id, list_id);
-ALTER TABLE ONLY public.crm_contact_lists ADD CONSTRAINT crm_contact_lists_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_contacts ADD CONSTRAINT crm_contacts_email_key UNIQUE (email);
-ALTER TABLE ONLY public.crm_contacts ADD CONSTRAINT crm_contacts_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_events ADD CONSTRAINT crm_events_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_flow_logs ADD CONSTRAINT crm_flow_logs_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_flow_step_queue ADD CONSTRAINT crm_flow_step_queue_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_flow_steps ADD CONSTRAINT crm_flow_steps_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_flows ADD CONSTRAINT crm_flows_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.crm_lists ADD CONSTRAINT crm_lists_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.rts_posts ADD CONSTRAINT rts_posts_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.rts_posts ADD CONSTRAINT rts_posts_slug_key UNIQUE (slug);
-
--- ============================================================
--- INDEXES
--- ============================================================
-
-CREATE UNIQUE INDEX crm_calendar_members_calendar_user_unique ON public.crm_calendar_members USING btree (calendar_id, user_id);
-CREATE UNIQUE INDEX crm_calendars_slug_unique ON public.crm_calendars USING btree (slug) WHERE (slug IS NOT NULL);
-CREATE UNIQUE INDEX crm_calendly_connections_user_uri_unique ON public.crm_calendly_connections USING btree (user_id, calendly_user_uri);
-CREATE INDEX crm_events_channel_event_type_created_idx ON public.crm_events USING btree (channel, event_type, created_at DESC);
-CREATE INDEX crm_events_contact_channel_event_type_idx ON public.crm_events USING btree (contact_id, channel, event_type);
-CREATE INDEX idx_crm_appointments_assigned_user_id ON public.crm_appointments USING btree (assigned_user_id);
-CREATE INDEX idx_crm_appointments_calendar_id ON public.crm_appointments USING btree (calendar_id);
-CREATE INDEX idx_crm_appointments_contact_id ON public.crm_appointments USING btree (contact_id);
-CREATE INDEX idx_crm_appointments_starts_at ON public.crm_appointments USING btree (starts_at);
-CREATE INDEX idx_crm_appointments_status ON public.crm_appointments USING btree (status);
-CREATE INDEX idx_crm_availability_calendar_id ON public.crm_availability USING btree (calendar_id);
-CREATE INDEX idx_crm_calendar_members_calendar_id ON public.crm_calendar_members USING btree (calendar_id);
-CREATE INDEX idx_crm_calendar_members_user_id ON public.crm_calendar_members USING btree (user_id);
-CREATE INDEX idx_crm_calendars_calendly_connection ON public.crm_calendars USING btree (calendly_connection_id) WHERE (calendly_connection_id IS NOT NULL);
-CREATE INDEX idx_crm_calendars_is_active ON public.crm_calendars USING btree (is_active);
-CREATE INDEX idx_crm_calendars_owner_user_id ON public.crm_calendars USING btree (owner_user_id);
-CREATE INDEX idx_crm_calendly_connections_user_id ON public.crm_calendly_connections USING btree (user_id);
-CREATE INDEX idx_crm_campaigns_created_at ON public.crm_campaigns USING btree (created_at);
-CREATE INDEX idx_crm_campaigns_status ON public.crm_campaigns USING btree (status);
-CREATE INDEX idx_crm_contact_lists_contact_id ON public.crm_contact_lists USING btree (contact_id);
-CREATE INDEX idx_crm_contact_lists_list_id ON public.crm_contact_lists USING btree (list_id);
-CREATE INDEX idx_crm_contacts_created_at ON public.crm_contacts USING btree (created_at);
-CREATE UNIQUE INDEX idx_crm_contacts_email ON public.crm_contacts USING btree (email);
-CREATE INDEX idx_crm_contacts_source ON public.crm_contacts USING btree (source);
-CREATE INDEX idx_crm_contacts_subscribed ON public.crm_contacts USING btree (subscribed);
-CREATE INDEX idx_crm_contacts_tags ON public.crm_contacts USING gin (tags);
-CREATE INDEX idx_crm_events_campaign_id ON public.crm_events USING btree (campaign_id);
-CREATE INDEX idx_crm_events_channel ON public.crm_events USING btree (channel);
-CREATE INDEX idx_crm_events_contact_id ON public.crm_events USING btree (contact_id);
-CREATE INDEX idx_crm_events_created_at ON public.crm_events USING btree (created_at);
-CREATE INDEX idx_crm_events_event_type ON public.crm_events USING btree (event_type);
-CREATE INDEX idx_crm_flow_logs_contact_id ON public.crm_flow_logs USING btree (contact_id);
-CREATE INDEX idx_crm_flow_logs_created_at ON public.crm_flow_logs USING btree (created_at);
-CREATE INDEX idx_crm_flow_logs_flow_id ON public.crm_flow_logs USING btree (flow_id);
-CREATE INDEX idx_crm_flow_step_queue_due ON public.crm_flow_step_queue USING btree (run_at) WHERE ((finished_at IS NULL) AND (attempts < max_attempts));
-CREATE INDEX idx_crm_flow_steps_flow_id ON public.crm_flow_steps USING btree (flow_id);
-CREATE INDEX idx_crm_flows_is_active ON public.crm_flows USING btree (is_active);
-CREATE INDEX idx_crm_flows_trigger_type ON public.crm_flows USING btree (trigger_type);
-
--- ============================================================
--- FOREIGN KEYS
--- ============================================================
-
-ALTER TABLE ONLY public.crm_appointments ADD CONSTRAINT crm_appointments_calendar_id_fkey FOREIGN KEY (calendar_id) REFERENCES public.crm_calendars(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_appointments ADD CONSTRAINT crm_appointments_contact_id_fkey FOREIGN KEY (contact_id) REFERENCES public.crm_contacts(id) ON DELETE SET NULL;
-ALTER TABLE ONLY public.crm_availability ADD CONSTRAINT crm_availability_calendar_id_fkey FOREIGN KEY (calendar_id) REFERENCES public.crm_calendars(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_calendar_members ADD CONSTRAINT crm_calendar_members_calendar_id_fkey FOREIGN KEY (calendar_id) REFERENCES public.crm_calendars(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_calendars ADD CONSTRAINT crm_calendars_calendly_connection_id_fkey FOREIGN KEY (calendly_connection_id) REFERENCES public.crm_calendly_connections(id) ON DELETE SET NULL;
-ALTER TABLE ONLY public.crm_campaigns ADD CONSTRAINT crm_campaigns_list_id_fkey FOREIGN KEY (list_id) REFERENCES public.crm_lists(id) ON DELETE SET NULL;
-ALTER TABLE ONLY public.crm_contact_lists ADD CONSTRAINT crm_contact_lists_contact_id_fkey FOREIGN KEY (contact_id) REFERENCES public.crm_contacts(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_contact_lists ADD CONSTRAINT crm_contact_lists_list_id_fkey FOREIGN KEY (list_id) REFERENCES public.crm_lists(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_events ADD CONSTRAINT crm_events_campaign_id_fkey FOREIGN KEY (campaign_id) REFERENCES public.crm_campaigns(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_events ADD CONSTRAINT crm_events_contact_id_fkey FOREIGN KEY (contact_id) REFERENCES public.crm_contacts(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_flow_logs ADD CONSTRAINT crm_flow_logs_contact_id_fkey FOREIGN KEY (contact_id) REFERENCES public.crm_contacts(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_flow_logs ADD CONSTRAINT crm_flow_logs_flow_id_fkey FOREIGN KEY (flow_id) REFERENCES public.crm_flows(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_flow_logs ADD CONSTRAINT crm_flow_logs_step_id_fkey FOREIGN KEY (step_id) REFERENCES public.crm_flow_steps(id) ON DELETE SET NULL;
-ALTER TABLE ONLY public.crm_flow_step_queue ADD CONSTRAINT crm_flow_step_queue_contact_id_fkey FOREIGN KEY (contact_id) REFERENCES public.crm_contacts(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_flow_step_queue ADD CONSTRAINT crm_flow_step_queue_flow_id_fkey FOREIGN KEY (flow_id) REFERENCES public.crm_flows(id) ON DELETE CASCADE;
-ALTER TABLE ONLY public.crm_flow_steps ADD CONSTRAINT crm_flow_steps_flow_id_fkey FOREIGN KEY (flow_id) REFERENCES public.crm_flows(id) ON DELETE CASCADE;
-
--- ============================================================
--- ROW LEVEL SECURITY
--- ============================================================
-
-ALTER TABLE public.crm_appointments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_availability ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_calendar_members ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_calendars ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_calendly_connections ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_campaigns ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_contact_lists ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_contacts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_flow_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_flow_step_queue ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_flow_steps ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_flows ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.crm_lists ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.rts_posts ENABLE ROW LEVEL SECURITY;
-
--- ============================================================
--- POLICIES
--- ============================================================
-
-CREATE POLICY "CRM appointments deletable" ON public.crm_appointments FOR DELETE USING (true);
-CREATE POLICY "CRM appointments insertable" ON public.crm_appointments FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM appointments readable" ON public.crm_appointments FOR SELECT USING (true);
-CREATE POLICY "CRM appointments updatable" ON public.crm_appointments FOR UPDATE USING (true);
-CREATE POLICY "CRM availability deletable" ON public.crm_availability FOR DELETE USING (true);
-CREATE POLICY "CRM availability insertable" ON public.crm_availability FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM availability readable" ON public.crm_availability FOR SELECT USING (true);
-CREATE POLICY "CRM availability updatable" ON public.crm_availability FOR UPDATE USING (true);
-CREATE POLICY "CRM calendar members deletable" ON public.crm_calendar_members FOR DELETE USING (true);
-CREATE POLICY "CRM calendar members insertable" ON public.crm_calendar_members FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM calendar members readable" ON public.crm_calendar_members FOR SELECT USING (true);
-CREATE POLICY "CRM calendar members updatable" ON public.crm_calendar_members FOR UPDATE USING (true);
-CREATE POLICY "CRM calendars deletable" ON public.crm_calendars FOR DELETE USING (true);
-CREATE POLICY "CRM calendars insertable" ON public.crm_calendars FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM calendars readable" ON public.crm_calendars FOR SELECT USING (true);
-CREATE POLICY "CRM calendars updatable" ON public.crm_calendars FOR UPDATE USING (true);
-CREATE POLICY "CRM campaigns deletable" ON public.crm_campaigns FOR DELETE USING (true);
-CREATE POLICY "CRM campaigns insertable" ON public.crm_campaigns FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM campaigns readable" ON public.crm_campaigns FOR SELECT USING (true);
-CREATE POLICY "CRM campaigns updatable" ON public.crm_campaigns FOR UPDATE USING (true);
-CREATE POLICY "CRM contact lists deletable" ON public.crm_contact_lists FOR DELETE USING (true);
-CREATE POLICY "CRM contact lists insertable" ON public.crm_contact_lists FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM contact lists readable" ON public.crm_contact_lists FOR SELECT USING (true);
-CREATE POLICY "CRM contacts deletable" ON public.crm_contacts FOR DELETE USING (true);
-CREATE POLICY "CRM contacts insertable" ON public.crm_contacts FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM contacts readable" ON public.crm_contacts FOR SELECT USING (true);
-CREATE POLICY "CRM contacts updatable" ON public.crm_contacts FOR UPDATE USING (true);
-CREATE POLICY "CRM events insertable" ON public.crm_events FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM events readable" ON public.crm_events FOR SELECT USING (true);
-CREATE POLICY "CRM flow logs insertable" ON public.crm_flow_logs FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM flow logs readable" ON public.crm_flow_logs FOR SELECT USING (true);
-CREATE POLICY "CRM flow queue deletable" ON public.crm_flow_step_queue FOR DELETE USING (true);
-CREATE POLICY "CRM flow queue insertable" ON public.crm_flow_step_queue FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM flow queue readable" ON public.crm_flow_step_queue FOR SELECT USING (true);
-CREATE POLICY "CRM flow queue updatable" ON public.crm_flow_step_queue FOR UPDATE USING (true);
-CREATE POLICY "CRM flow steps deletable" ON public.crm_flow_steps FOR DELETE USING (true);
-CREATE POLICY "CRM flow steps insertable" ON public.crm_flow_steps FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM flow steps readable" ON public.crm_flow_steps FOR SELECT USING (true);
-CREATE POLICY "CRM flow steps updatable" ON public.crm_flow_steps FOR UPDATE USING (true);
-CREATE POLICY "CRM flows deletable" ON public.crm_flows FOR DELETE USING (true);
-CREATE POLICY "CRM flows insertable" ON public.crm_flows FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM flows readable" ON public.crm_flows FOR SELECT USING (true);
-CREATE POLICY "CRM flows updatable" ON public.crm_flows FOR UPDATE USING (true);
-CREATE POLICY "CRM lists deletable" ON public.crm_lists FOR DELETE USING (true);
-CREATE POLICY "CRM lists insertable" ON public.crm_lists FOR INSERT WITH CHECK (true);
-CREATE POLICY "CRM lists readable" ON public.crm_lists FOR SELECT USING (true);
-CREATE POLICY "CRM lists updatable" ON public.crm_lists FOR UPDATE USING (true);
-CREATE POLICY "Calendly connections service only" ON public.crm_calendly_connections USING (false) WITH CHECK (false);
-CREATE POLICY "Public can insert posts" ON public.rts_posts FOR INSERT WITH CHECK (true);
-CREATE POLICY "Public can read posts" ON public.rts_posts FOR SELECT USING (true);
+{
+  "name": "vite_react_shadcn_ts",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-aspect-ratio": "^1.1.0",
+    "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-collapsible": "^1.1.0",
+    "@radix-ui/react-context-menu": "^2.2.1",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-hover-card": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-menubar": "^1.1.1",
+    "@radix-ui/react-navigation-menu": "^1.2.0",
+    "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-radio-group": "^1.2.0",
+    "@radix-ui/react-scroll-area": "^1.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slider": "^1.2.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.1",
+    "@radix-ui/react-toggle": "^1.1.0",
+    "@radix-ui/react-toggle-group": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.4",
+    "@supabase/supabase-js": "^2.69.0",
+    "@tanstack/react-query": "^5.56.2",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.20",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
+    "date-fns": "^3.6.0",
+    "embla-carousel-react": "^8.3.0",
+    "highlight.js": "^11.9.0",
+    "input-otp": "^1.2.4",
+    "lucide-react": "^0.462.0",
+    "marked": "^12.0.1",
+    "next-themes": "^0.3.0",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "react-resizable-panels": "^2.1.3",
+    "react-router-dom": "^6.26.2",
+    "recharts": "^2.12.7",
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss": "^3.4.11",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.5.3",
+    "uuid": "^11.1.0",
+    "vaul": "^0.9.3",
+    "vite": "^5.4.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "typescript-eslint": "^8.0.1"
+  }
+}
