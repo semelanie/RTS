@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabaseClient';
 import {
   LogOut, Home, Info, BookOpen, Anchor, FolderOpen, Newspaper,
   Users, Image, Save, Upload, ChevronDown, ChevronUp, Check, AlertCircle
